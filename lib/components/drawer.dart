@@ -280,8 +280,7 @@ class DrawerListTile extends StatelessWidget {
           onTap: () {
             if(drawerItem.id != Section.DRAWER_LOGIN && drawerItem.id != Section.DRAWER_REGISTRATION && drawerItem.id != Section.DRAWER_EXIT)
               AppState().selectedDrawerItem = drawerItem.id;
-
-            else if (drawerItem.id == Section.DRAWER_LOGOUT) {
+            if (drawerItem.id == Section.DRAWER_LOGOUT) {
               new NavigationUtils().logout(context);
             }
             else if (drawerItem.id == Section.DRAWER_EXIT){
