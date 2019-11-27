@@ -10,6 +10,7 @@ import 'package:film_fllix/theme/FF_colors.dart';
 import 'package:film_fllix/utils/navigation_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:logging/logging.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -280,8 +281,12 @@ class DrawerListTile extends StatelessWidget {
             if(drawerItem.id != Section.DRAWER_LOGIN && drawerItem.id != Section.DRAWER_REGISTRATION && drawerItem.id != Section.DRAWER_EXIT)
               AppState().selectedDrawerItem = drawerItem.id;
 
-            if (drawerItem.id == Section.DRAWER_LOGOUT || drawerItem.id == Section.DRAWER_EXIT) {
+            else if (drawerItem.id == Section.DRAWER_LOGOUT) {
               new NavigationUtils().logout(context);
+            }
+            else if (drawerItem.id == Section.DRAWER_EXIT){
+              new NavigationUtils().logout(context);
+              SystemChannels.platform.invokeMethod('SystemNavigator.pop');
             }
             else {
               Navigator.of(context).pop();
