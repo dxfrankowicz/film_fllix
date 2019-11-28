@@ -339,7 +339,7 @@ class MoviesPageState extends BaseNavState<MoviesPage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   new Icon(Icons.star, color: Colors.yellow),
-                                  new Text(movie.rating?.toString() ?? "-", style: textTheme.body2.copyWith(color: Colors.white))
+                                  new Text(movie.rating?.toInt()?.toStringAsFixed(1) ?? "-", style: textTheme.body2.copyWith(color: Colors.white))
                                 ],
                               ),
                             )

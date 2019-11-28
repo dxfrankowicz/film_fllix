@@ -13,7 +13,7 @@ class Movie {
   final num price;
   final String imageUrl;
   final int duration;
-  final double rating;
+  double rating;
   @JsonKey(ignore: true, required: false)
   bool isRented;
 

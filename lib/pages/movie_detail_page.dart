@@ -67,6 +67,7 @@ class MovieDetailPageState extends BaseNavState<MovieDetailPage> with TickerProv
     new ApiClient().commentForMovie(widget.movie.movieId).then((v){
       _commentList = v.comments;
       setState(() {
+        _movie.rating = calculateNewRating();
         isLoadingComments = false;
       });
     });
@@ -387,7 +388,7 @@ class MovieDetailPageState extends BaseNavState<MovieDetailPage> with TickerProv
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     new Icon(Icons.star, color: Colors.yellow),
-                                    new Text(_movie.rating?.toString() ?? "-", style: textTheme.body2.copyWith(color: Colors.white))
+                                    new Text(_movie.rating?.toInt()?.toStringAsFixed(1) ?? "-", style: textTheme.body2.copyWith(color: Colors.white))
                                   ],
                                 ),
                               )
@@ -597,7 +598,20 @@ class MovieDetailPageState extends BaseNavState<MovieDetailPage> with TickerProv
       ),
     );
   }
+
+  double calculateNewRating(){
+    int sum = 0;
+    int l = 0;
+    _commentList.forEach((c){
+      if(c.rating!=null) {
+        sum+=c.rating;
+        l+=1;
+      }
+    });
+    return sum/l;
+  }
 }
+
 
 typedef void RatingChangeCallback(double rating);
 
