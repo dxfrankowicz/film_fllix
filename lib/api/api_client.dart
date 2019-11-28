@@ -83,8 +83,10 @@ class ApiClient{
         .then((rsp) {
       var json = convertToJson(rsp);
       bool loginOk = true;
-      if(json!=null && json["message"]!=null) {
-        loginOk=!json["message"].toLowerCase().contains("wrong");
+      if(json!=null) {
+        loginOk = json["message"] != null ? !json["message"].toLowerCase().contains("wrong") : true;
+      }
+      if (loginOk) {
         LoginRsp loginRsp = LoginRsp.fromJson(json);
         Storage.setToken(loginRsp.token).then((token) {
           me().then((access) {
