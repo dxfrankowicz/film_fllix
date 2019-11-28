@@ -103,9 +103,15 @@ class LoginPageState extends BaseNavState<LoginPage> with TickerProviderStateMix
     new LoadingDialog(S.of(context).loginLogging, context).showLoadingDialog();
 
     new ApiClient().login(_email, _password).then((rsp) {
-      Navigator.of(context).pop();
-      NavigationUtils().goToPageNamedRemovingAll(context, "/movies");
-      FlushbarUtils.show(context, message: S.of(context).loginLoggedSuccessfully, color: Colors.lightGreen, icon: Icons.check_circle);
+      if(rsp){
+        Navigator.of(context).pop();
+        NavigationUtils().goToPageNamedRemovingAll(context, "/movies");
+        FlushbarUtils.show(context, message: S.of(context).loginLoggedSuccessfully, color: Colors.lightGreen, icon: Icons.check_circle);
+      }
+      else{
+        Navigator.of(context).pop();
+        FlushbarUtils.show(context, message: S.of(context).loginWrongPassword);
+      }
     }).catchError((ex) {
       Navigator.of(context).pop();
       String msg = "Wystąpił błąd. Sprawdź połączenie sieciowe";

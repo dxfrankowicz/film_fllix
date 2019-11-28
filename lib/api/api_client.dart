@@ -53,7 +53,7 @@ class ApiClient{
     return body;
   }
 
-  Future<String> register(String name, String surname, String login,
+  Future<bool> register(String name, String surname, String login,
       String password) {
     var body = {
       'login': login,
@@ -65,11 +65,15 @@ class ApiClient{
     return baseApiClient.post("/user/register", body: jsonEncode(body))
         .then((rsp) {
       var json = convertToJson(rsp);
-      return json["message"];
+      bool signUpOk = true;
+      if(json!=null && json["message"]!=null)
+        signUpOk = !json["message"].toLowerCase().contains("already exists");
+
+      return signUpOk;
     });
   }
 
-  Future<LoginRsp> login(String login, String password) {
+  Future<bool> login(String login, String password) {
     var body = {
       'login': login,
       'password': password,
@@ -78,13 +82,17 @@ class ApiClient{
     return baseApiClient.post("/user/login", body: jsonEncode(body))
         .then((rsp) {
       var json = convertToJson(rsp);
-      LoginRsp loginRsp = LoginRsp.fromJson(json);
-      Storage.setToken(loginRsp.token).then((token){
-        me().then((access){
-          Storage.setCurrentAccess(access);
+      bool loginOk = true;
+      if(json!=null && json["message"]!=null) {
+        loginOk=!json["message"].toLowerCase().contains("wrong");
+        LoginRsp loginRsp = LoginRsp.fromJson(json);
+        Storage.setToken(loginRsp.token).then((token) {
+          me().then((access) {
+            Storage.setCurrentAccess(access);
+          });
         });
-      });
-      return loginRsp;
+      }
+      return loginOk;
     });
   }
 

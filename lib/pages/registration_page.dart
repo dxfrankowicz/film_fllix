@@ -96,7 +96,7 @@ class RegistrationPageState extends BaseNavState<RegistrationPage> with TickerPr
 
     new ApiClient().register(_name, _surname, _login, _password).then((rsp) {
       Navigator.of(context).pop();
-      if(rsp.contains("already exists")){
+      if(!rsp){
         FlushbarUtils.show(context, message: S.of(context).registrationSignUpAlreadyExist);
       }
       else {
