@@ -608,7 +608,7 @@ class MovieDetailPageState extends BaseNavState<MovieDetailPage> with TickerProv
         l+=1;
       }
     });
-    return sum/l;
+    return l>0 ? sum/l : null;
   }
 }
 
