@@ -1,6 +1,8 @@
 # film_fllix
 
-System wypożyczalni filmów
+Movie rental system combining Flimweb and Netflix functionalities.
+
+Project for studies
 
 ## Getting Started
 
